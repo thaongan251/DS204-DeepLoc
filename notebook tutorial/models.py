@@ -397,7 +397,7 @@ def CNN_LSTM_Att(batch_size, seq_len, n_hid, n_feat, n_class, n_filt, lr, drop_p
 
 
 	# Get output validation, deterministic=True is only use for validation
-	val_prediction = lasagne.layers.get_output(l_out, inputs={l_in: input_var, l_mask: mask_var}, deterministic=True)
+	val_prediction, context_vec = lasagne.layers.get_output(l_out, inputs={l_in: input_var, l_mask: mask_var}, deterministic=True)
 
 	# Calculate the categorical cross entropy between the labels and the prediction
 	t_val_loss = lasagne.objectives.categorical_crossentropy(val_prediction, target_var)
@@ -408,6 +408,6 @@ def CNN_LSTM_Att(batch_size, seq_len, n_hid, n_feat, n_class, n_filt, lr, drop_p
 
 	# Build functions
 	train_fn = theano.function([input_var, target_var, mask_var], [loss, prediction], updates=updates)
-	val_fn = theano.function([input_var, target_var, mask_var], [val_loss, val_prediction, l_att.alpha])
+	val_fn = theano.function([input_var, target_var, mask_var], [val_loss, val_prediction, l_att.alpha, context_vec])
 
 	return train_fn, val_fn, l_out
