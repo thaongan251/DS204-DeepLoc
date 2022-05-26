@@ -1,0 +1,1 @@
+### Bộ dữ liệu DeepLoc đã được mã hóa BLOSUM62 và chuẩn hóa Min-Max
