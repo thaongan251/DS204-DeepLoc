@@ -31,8 +31,8 @@ def neural_network(batch_size, n_hid, n_feat, n_class, lr, drop_per, drop_hid, n
 	# Input layer, holds the shape of the data
 	l_in = lasagne.layers.InputLayer(shape=(batch_size, None, n_feat), input_var=input_var)
 
-	# Dropout positions of the protein sequence	
-	l_indrop = DropoutSeqPosLayer(l_in, p=drop_per)
+# 	# Dropout positions of the protein sequence	
+# 	l_indrop = DropoutSeqPosLayer(l_in, p=drop_per)
 	
 	# Input layer with masks
 	l_mask = lasagne.layers.InputLayer(shape=(batch_size, None), input_var=mask_var)
@@ -47,7 +47,7 @@ def neural_network(batch_size, n_hid, n_feat, n_class, lr, drop_per, drop_hid, n
 	f_size_f = 21
 	
 	# Shuffle shape to be properly read by the CNN layer
-	l_shu = lasagne.layers.DimshuffleLayer(l_indrop, (0,2,1))
+	l_shu = lasagne.layers.DimshuffleLayer(l_in, (0,2,1))
 	
 	# First convolutional layers
 	l_conv_a = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1, W=w_inits, filter_size=f_size_a, nonlinearity=lasagne.nonlinearities.rectify)
@@ -64,15 +64,15 @@ def neural_network(batch_size, n_hid, n_feat, n_class, lr, drop_per, drop_hid, n
 	l_conv_final = lasagne.layers.Conv1DLayer(l_conc, num_filters=64, pad='same', stride=1, filter_size=f_size_b, nonlinearity=lasagne.nonlinearities.rectify)
 	
 	# Reshuffle to initial shape
-	l_indrop = lasagne.layers.DimshuffleLayer(l_conv_final, (0,2,1))
+	l_reshu = lasagne.layers.DimshuffleLayer(l_conv_final, (0,2,1))
 	
 	# Dropout
-	l_indrop = lasagne.layers.dropout(l_indrop, p=drop_hid)
+	#l_indrop = lasagne.layers.dropout(l_indrop, p=drop_hid)
 	
 	#### Attention mechanism ####
 	# LSTM forward and backward layers
-	l_fwd = lasagne.layers.LSTMLayer(l_indrop, num_units=n_hid, name='LSTMFwd', mask_input=l_mask, cell_init=lasagne.init.Orthogonal(), hid_init=lasagne.init.Orthogonal(), nonlinearity=lasagne.nonlinearities.tanh, grad_clipping=2)
-	l_bck = lasagne.layers.LSTMLayer(l_indrop, num_units=n_hid, name='LSTMBck', mask_input=l_mask, cell_init=lasagne.init.Orthogonal(), hid_init=lasagne.init.Orthogonal(),	backwards=True, nonlinearity=lasagne.nonlinearities.tanh, grad_clipping=2)
+	l_fwd = lasagne.layers.LSTMLayer(l_reshu, num_units=n_hid, name='LSTMFwd', mask_input=l_mask, cell_init=lasagne.init.Orthogonal(), hid_init=lasagne.init.Orthogonal(), nonlinearity=lasagne.nonlinearities.tanh, grad_clipping=2)
+	l_bck = lasagne.layers.LSTMLayer(l_reshu, num_units=n_hid, name='LSTMBck', mask_input=l_mask, cell_init=lasagne.init.Orthogonal(), hid_init=lasagne.init.Orthogonal(),	backwards=True, nonlinearity=lasagne.nonlinearities.tanh, grad_clipping=2)
 	
 	# Concatenate both layers
 	l_conc_lstm = lasagne.layers.ConcatLayer([l_fwd, l_bck], axis=2)
