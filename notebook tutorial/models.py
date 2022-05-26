@@ -91,8 +91,8 @@ def CNN(batch_size, seq_len, n_hid, n_feat, n_class, n_filt, lr, drop_prob):
 		val_fn -- compiled theano function for validation/testing
 		l_out -- output of the network, can be used to save the model parameters		
 	"""
-	
-	# We use ftensor3 because the protein data is a 3D-matrix in float32 
+	w_inits = lasagne.init.Orthogonal('relu')
+	# We use ftensor3 because the protein data is a 3D-matrix in float32
 	input_var = T.ftensor3('inputs')
 	# ivector because the labels is a single dimensional vector of integers
 	target_var = T.ivector('targets')
@@ -193,7 +193,7 @@ def CNN_LSTM(batch_size, seq_len, n_hid, n_feat, n_class, n_filt, lr, drop_prob)
 		val_fn -- compiled theano function for validation/testing
 		l_out -- output of the network, can be used to save the model parameters		
 	"""
-	
+	w_inits = lasagne.init.Orthogonal('relu')
 	# We use ftensor3 because the protein data is a 3D-matrix in float32 
 	input_var = T.ftensor3('inputs')
 	# ivector because the labels is a single dimensional vector of integers
@@ -309,7 +309,7 @@ def CNN_LSTM_Att(batch_size, seq_len, n_hid, n_feat, n_class, n_filt, lr, drop_p
 		val_fn -- compiled theano function for validation/testing
 		l_out -- output of the network, can be used to save the model parameters		
 	"""
-	
+	w_inits = lasagne.init.Orthogonal('relu')
 	# We use ftensor3 because the protein data is a 3D-matrix in float32 
 	input_var = T.ftensor3('inputs')
 	# ivector because the labels is a single dimensional vector of integers
