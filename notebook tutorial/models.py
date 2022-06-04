@@ -214,23 +214,24 @@ def CNN_LSTM(batch_size, seq_len, n_hid, n_feat, n_class, n_filt, lr, drop_prob)
 
 	
 	# Size of convolutional layers
-	f_size_a = 1
+	#f_size_a = 1
 	f_size_b = 3
 	f_size_c = 5
-	f_size_d = 9
-	f_size_e = 15
-	f_size_f = 21
+	#f_size_d = 9
+	#f_size_e = 15
+	#f_size_f = 21
 	
 	# Convolutional layers with different filter size
-	l_conv_a = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1, W=w_inits, filter_size=f_size_a, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_a = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1, W=w_inits, filter_size=f_size_a, nonlinearity=lasagne.nonlinearities.rectify)
 	l_conv_b = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_b, nonlinearity=lasagne.nonlinearities.rectify)
 	l_conv_c = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_c, nonlinearity=lasagne.nonlinearities.rectify)
-	l_conv_d = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_d, nonlinearity=lasagne.nonlinearities.rectify)
-	l_conv_e = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_e, nonlinearity=lasagne.nonlinearities.rectify)
-	l_conv_f = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_f, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_d = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_d, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_e = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_e, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_f = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_f, nonlinearity=lasagne.nonlinearities.rectify)
 
 	# The output is concatenated
-	l_conc = lasagne.layers.ConcatLayer([l_conv_a, l_conv_b, l_conv_c, l_conv_d, l_conv_e, l_conv_f], axis=1)
+	#l_conc = lasagne.layers.ConcatLayer([l_conv_a, l_conv_b, l_conv_c, l_conv_d, l_conv_e, l_conv_f], axis=1)
+	l_conc = lasagne.layers.ConcatLayer([l_conv_b, l_conv_c], axis=1)
 	
 
 	# Second CNN layer
@@ -329,23 +330,24 @@ def CNN_LSTM_Att(batch_size, seq_len, n_hid, n_feat, n_class, n_filt, lr, drop_p
 	l_shu = lasagne.layers.DimshuffleLayer(l_in, (0,2,1))
 
 	# Size of convolutional layers
-	f_size_a = 1
+	#f_size_a = 1
 	f_size_b = 3
 	f_size_c = 5
-	f_size_d = 9
-	f_size_e = 15
-	f_size_f = 21
+	#f_size_d = 9
+	#f_size_e = 15
+	#f_size_f = 21
 	
 	# Convolutional layers with different filter size
-	l_conv_a = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1, W=w_inits, filter_size=f_size_a, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_a = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1, W=w_inits, filter_size=f_size_a, nonlinearity=lasagne.nonlinearities.rectify)
 	l_conv_b = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_b, nonlinearity=lasagne.nonlinearities.rectify)
 	l_conv_c = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_c, nonlinearity=lasagne.nonlinearities.rectify)
-	l_conv_d = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_d, nonlinearity=lasagne.nonlinearities.rectify)
-	l_conv_e = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_e, nonlinearity=lasagne.nonlinearities.rectify)
-	l_conv_f = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_f, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_d = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_d, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_e = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_e, nonlinearity=lasagne.nonlinearities.rectify)
+	#l_conv_f = lasagne.layers.Conv1DLayer(l_shu, num_filters=n_filt, pad='same', stride=1,W=w_inits, filter_size=f_size_f, nonlinearity=lasagne.nonlinearities.rectify)
 
 	# The output is concatenated
-	l_conc = lasagne.layers.ConcatLayer([l_conv_a, l_conv_b, l_conv_c, l_conv_d, l_conv_e, l_conv_f], axis=1)
+	#l_conc = lasagne.layers.ConcatLayer([l_conv_a, l_conv_b, l_conv_c, l_conv_d, l_conv_e, l_conv_f], axis=1)
+	l_conc = lasagne.layers.ConcatLayer([l_conv_b, l_conv_c], axis=1)
 
 	# Second CNN layer
 	l_conv_final = lasagne.layers.Conv1DLayer(l_conc, num_filters=n_filt*2, pad='same', 
